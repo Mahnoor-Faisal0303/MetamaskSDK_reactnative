@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import {useSDK} from '@metamask/sdk-react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {colors} from './colors';
 import {NativeModules} from 'react-native';
@@ -46,8 +46,10 @@ const createStyles = ({connected}: {connected: boolean}) => {
 export const DAPPView = (_props: DAPPViewProps) => {
   const {sdk, provider, chainId, account, connected} = useSDK();
 
+
   const [response, setResponse] = useState<unknown>('');
   const styles = createStyles({connected});
+  const [balance, setBalance] =useState<unknown>('');
 
   const connect = async () => {
     try {
@@ -104,8 +106,9 @@ export const DAPPView = (_props: DAPPViewProps) => {
         method: 'eth_getBalance',
         params: [from, 'latest'],
       });
-      console.log('getBalance result:', balanceResult);
-      setResponse(balanceResult);
+      //  console.log('getBalance result:.................', balanceResult);
+      //setResponse(balanceResult);
+      setBalance(balanceResult);
     } catch (err) {
       console.warn('failed to getBalance..', err);
     }
@@ -383,7 +386,12 @@ export const DAPPView = (_props: DAPPViewProps) => {
 
       {connected ? (
         <>
-          <Button title={'Request Accounts'} onPress={connect} />
+        <Button
+            title="Get Balance"
+            onPress={getBalance}
+        />
+          <Text>Balance is: <>{balance}</></Text>
+          {/* <Button title={'Request Accounts'} onPress={connect} />
           <Button title="eth_signTypedData_v4" onPress={sign} />
           <Button title="Personal Sign" onPress={personalSign} />
           <Button title="Batch Sign Calls" onPress={batch} />
@@ -399,7 +407,7 @@ export const DAPPView = (_props: DAPPViewProps) => {
           <Button
             title="Add The Polygon Chain"
             onPress={addPolygonChainRequest}
-          />
+          /> 
           <View
             style={{
               marginVertical: 5,
@@ -418,11 +426,12 @@ export const DAPPView = (_props: DAPPViewProps) => {
                 changeNetwork('0x1');
               }}
             />
-          </View>
+          </View>*/}
           <Text style={textStyle}>
-            {chainId && `Connected Chain: ${chainId}\n`}
+            {/* {chainId && `Connected Chain: ${chainId}\n`} */}
             {account && `Connected Account: ${account}\n\n`}
-            {response ? `Last request response: ${response}` : ''}
+            
+            {/* {response ? `Last request response: ${response}` : ''} */}
           </Text>
         </>
       ) : (

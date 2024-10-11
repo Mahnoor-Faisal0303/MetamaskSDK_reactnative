@@ -13,6 +13,7 @@ import {
 import React, {useEffect} from 'react';
 import {AppState, AppStateStatus, LogBox} from 'react-native';
 import RootNavigator from './src/RootNavigator';
+import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 
 LogBox.ignoreLogs([
   'Possible Unhandled Promise Rejection',
@@ -25,6 +26,7 @@ LogBox.ignoreLogs([
 // current problem is that sdk declaration is outside of the react scope so I cannot directly verify the state
 // hence usage of a global variable.
 let canOpenLink = true;
+const queryClient = new QueryClient();
 
 const SafeApp = () => {
   const navigationRef = useNavigationContainerRef();
@@ -59,7 +61,9 @@ const SafeApp = () => {
           },
         }}>
         <NavigationContainer ref={navigationRef} onReady={handleNavReady}>
+        <QueryClientProvider client={queryClient}>
           <RootNavigator />
+        </QueryClientProvider>
         </NavigationContainer>
       </MetaMaskProvider>
     </SDKConfigProvider>

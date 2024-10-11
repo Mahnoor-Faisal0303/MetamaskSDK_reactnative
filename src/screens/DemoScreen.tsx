@@ -21,8 +21,10 @@ import {
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import packageJSON from '../../package.json';
 import {DAPPView} from '../views/DappView';
+import useContractData from "../hooks/useContractData";
 
 export function DemoScreen(): React.JSX.Element {
+  const { depositAmount, gameDuration,topValue } = useContractData();
   const isDarkMode = useColorScheme() === 'dark';
   const [encryptionTime, setEncryptionTime] = useState<number>();
   const {sdk} = useSDK();
@@ -67,7 +69,7 @@ export function DemoScreen(): React.JSX.Element {
             marginTop: 30,
             backgroundColor: Colors.white,
           }}>
-          <Text
+          {/* <Text
             style={{
               color: Colors.black,
               fontSize: 22,
@@ -75,8 +77,8 @@ export function DemoScreen(): React.JSX.Element {
               margin: 3,
             }}>
             React Native SDK - Test Dapp
-          </Text>
-          <Text
+          </Text> */}
+          {/* <Text
             style={{
               color: Colors.black,
               fontSize: 22,
@@ -88,12 +90,14 @@ export function DemoScreen(): React.JSX.Element {
               .trim()
               .replaceAll('\n', '')}`}
             )
-          </Text>
-          <Button title="Test Encryption" onPress={testEncrypt} />
+          </Text> */}
+          {/* <Button title="Test Encryption" onPress={testEncrypt} /> */}
           <Text style={{color: Colors.black}}>
             {encryptionTime && `Encryption time: ${encryptionTime} ms`}
           </Text>
           <DAPPView />
+          <Text>Deposit Amount:<>{depositAmount}</></Text>
+            <Text>Game Duration:<> {gameDuration}</></Text>
         </View>
       </ScrollView>
     </SafeAreaView>
